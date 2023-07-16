@@ -1,6 +1,8 @@
 const express = require('express')
-const sql = require('./models/db.js')
+require('dotenv').config()
 const cors = require('cors')
+
+// console.log(process.env)
 
 //create logger middleware 
 
@@ -13,7 +15,6 @@ const myLogger = (req,res,next)=>{
 const app = express()
 
 //PORT 
-
 const PORT = 5000
 
 //logger middleware
@@ -28,9 +29,20 @@ app.get('/',(req,res)=>{
     res.send("<h1>Welcome to our API</h1>")
 })  
 
-app.listen(PORT,()=>{
-    console.log(`server is running in port http://localhost:${PORT}`)
-})
+const start = async () =>{
+    try{
+        const sql = await require('./models/db.js')
+        app.listen(PORT,()=>{
+            console.log(`server is running on port : ${PORT}`)
+        })
+    }catch(err){
+        console.log(err)
+    }
+}
+
+start()
+
+
 
 
 
